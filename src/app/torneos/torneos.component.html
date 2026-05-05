@@ -1,0 +1,125 @@
+<mat-card style="max-width: 600px; margin: 0 auto 32px auto;">
+  <mat-card-header>
+    <mat-card-title>Registrar Torneo</mat-card-title>
+  </mat-card-header>
+  <mat-card-content style="padding-top: 16px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre del torneo</mat-label>
+        <input matInput [(ngModel)]="nuevoTorneo.nombre" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ciudad</mat-label>
+        <input matInput [(ngModel)]="nuevoTorneo.ciudad" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <input matInput [(ngModel)]="nuevoTorneo.pais" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha de inicio</mat-label>
+        <input matInput type="date" [(ngModel)]="nuevoTorneo.fechaInicio" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha de fin</mat-label>
+        <input matInput type="date" [(ngModel)]="nuevoTorneo.fechaFin" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Premio total ($)</mat-label>
+        <input matInput type="number" [(ngModel)]="nuevoTorneo.premioTotal" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Superficie</mat-label>
+        <mat-select [(ngModel)]="nuevoTorneo.superficie">
+          <mat-option value="ARCILLA">Arcilla</mat-option>
+          <mat-option value="CESPED">Césped</mat-option>
+          <mat-option value="DURA">Dura</mat-option>
+          <mat-option value="INDOOR">Indoor</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Categoría</mat-label>
+        <mat-select [(ngModel)]="nuevoTorneo.categoria">
+          <mat-option value="ATP_250">ATP 250</mat-option>
+          <mat-option value="ATP_500">ATP 500</mat-option>
+          <mat-option value="MASTERS_1000">Masters 1000</mat-option>
+          <mat-option value="GRAND_SLAM">Grand Slam</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="crearTorneo()">
+        <mat-icon>emoji_events</mat-icon> Registrar Torneo
+      </button>
+    </div>
+    <p *ngIf="mensaje" style="color: #1565C0; margin-top: 12px;">{{ mensaje }}</p>
+  </mat-card-content>
+</mat-card>
+
+<h2 style="margin-bottom: 16px;">Lista de Torneos</h2>
+
+<table mat-table [dataSource]="torneos" style="width: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let t">{{ t.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="nombre">
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <td mat-cell *matCellDef="let t">{{ t.nombre }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="ciudad">
+    <th mat-header-cell *matHeaderCellDef>Ciudad</th>
+    <td mat-cell *matCellDef="let t">{{ t.ciudad }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="pais">
+    <th mat-header-cell *matHeaderCellDef>País</th>
+    <td mat-cell *matCellDef="let t">{{ t.pais }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="fechaInicio">
+    <th mat-header-cell *matHeaderCellDef>Inicio</th>
+    <td mat-cell *matCellDef="let t">{{ t.fechaInicio }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="fechaFin">
+    <th mat-header-cell *matHeaderCellDef>Fin</th>
+    <td mat-cell *matCellDef="let t">{{ t.fechaFin }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="premioTotal">
+    <th mat-header-cell *matHeaderCellDef>Premio Total</th>
+    <td mat-cell *matCellDef="let t">${{ t.premioTotal }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="superficie">
+    <th mat-header-cell *matHeaderCellDef>Superficie</th>
+    <td mat-cell *matCellDef="let t">{{ t.superficie }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="categoria">
+    <th mat-header-cell *matHeaderCellDef>Categoría</th>
+    <td mat-cell *matCellDef="let t">{{ t.categoria }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let t">
+      <button mat-icon-button color="primary" (click)="calcularPremio(t.id!)" matTooltip="Ver premio al ganador">
+        <mat-icon>monetization_on</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="eliminarTorneo(t.id!)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+
+</table>
+
+<p *ngIf="torneos.length === 0" style="text-align: center; margin-top: 20px; color: gray;">
+  No hay torneos registrados
+</p>

@@ -1,0 +1,103 @@
+<mat-card style="max-width: 600px; margin: 0 auto 32px auto;">
+  <mat-card-header>
+    <mat-card-title>Registrar Jugador</mat-card-title>
+  </mat-card-header>
+  <mat-card-content style="padding-top: 16px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput [(ngModel)]="nuevoJugador.nombre" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Apellido</mat-label>
+        <input matInput [(ngModel)]="nuevoJugador.apellido" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nacionalidad</mat-label>
+        <input matInput [(ngModel)]="nuevoJugador.nacionalidad" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Correo</mat-label>
+        <input matInput [(ngModel)]="nuevoJugador.correo" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ranking</mat-label>
+        <input matInput type="number" [(ngModel)]="nuevoJugador.ranking" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Puntos acumulados</mat-label>
+        <input matInput type="number" [(ngModel)]="nuevoJugador.puntosAcumulados" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Títulos</mat-label>
+        <input matInput type="number" [(ngModel)]="nuevoJugador.titulos" />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="crearJugador()">
+        <mat-icon>person_add</mat-icon> Registrar Jugador
+      </button>
+    </div>
+    <p *ngIf="mensaje" style="color: #e91e63; margin-top: 12px;">{{ mensaje }}</p>
+  </mat-card-content>
+</mat-card>
+
+<h2 style="margin-bottom: 16px;">Lista de Jugadores</h2>
+
+<table mat-table [dataSource]="jugadores" style="width: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let j">{{ j.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="nombre">
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <td mat-cell *matCellDef="let j">{{ j.nombre }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="apellido">
+    <th mat-header-cell *matHeaderCellDef>Apellido</th>
+    <td mat-cell *matCellDef="let j">{{ j.apellido }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="nacionalidad">
+    <th mat-header-cell *matHeaderCellDef>Nacionalidad</th>
+    <td mat-cell *matCellDef="let j">{{ j.nacionalidad }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="correo">
+    <th mat-header-cell *matHeaderCellDef>Correo</th>
+    <td mat-cell *matCellDef="let j">{{ j.correo }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="ranking">
+    <th mat-header-cell *matHeaderCellDef>Ranking</th>
+    <td mat-cell *matCellDef="let j">{{ j.ranking }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="puntosAcumulados">
+    <th mat-header-cell *matHeaderCellDef>Puntos</th>
+    <td mat-cell *matCellDef="let j">{{ j.puntosAcumulados }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="titulos">
+    <th mat-header-cell *matHeaderCellDef>Títulos</th>
+    <td mat-cell *matCellDef="let j">{{ j.titulos }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let j">
+      <button mat-icon-button color="warn" (click)="eliminarJugador(j.id!)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+
+</table>
+
+<p *ngIf="jugadores.length === 0" style="text-align: center; margin-top: 20px; color: gray;">
+  No hay jugadores registrados
+</p>
